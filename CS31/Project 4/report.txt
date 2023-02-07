@@ -1,0 +1,88 @@
+a. A brief description of notable obstacles you overcame.
+- When writing loops for removeDups, I could not figure out how to replace each value of array a with each unique value from consecutive identical term sequences. Thus, I made a variable to indicate at which index I should place new values of array a, and another to indicate at which index I should evaluate the next consecutive identical term sequence when I finished evaluating the current one.
+- When writing subsequence, it took me a while to figure out if the loop for evaluating the first array should go outside the loop for the second, or vice versa. However, recognizing that the index for the second array would change more than the index for the first, I structured the loops accordingly with the second array loop in the center.
+
+b. Test data that could be used to thoroughly test your functions, along with the reason for each test. Note which test cases your program does not handle correctly.
+
+Unless noted otherwise, string a[] and const string a[] are the following array:
+	{"ayato", "xiao", "yunjin", "ayato", "raiden", "chongyun", "yae miko", "yae miko", "zhongli", "yae miko"}
+
+int enumerate(const string a[], int n, string target)
+- Evaluate whole array: (const string a[], 10, "yae miko")
+- Evaluate part of array: (const string a[], 7, "yae miko")
+	(Function should not count target string matches past 7th value)
+- Target string doesn't exist: (const string a[], 10, "kazuha")
+- Evaluate 0 elements: (const string a[], 0, "yae miko")
+- Evaluate negative elements: (const string a[], -10, "yae miko")
+	(Function should return -1)
+
+int findMatch(const string a[], int n, string target)
+- Target exists within function range: (const string a[], 4, "xiao")
+- Target exists outside function range: (const string a[], 4, "raiden")
+	(Function should not count target string matches past 4th value)
+- Multiple strings matching target: (const string a[], 10, "yae miko")
+	(Function must return only the earliest target match)
+- No strings matching target: (const string a[], 10, "kazuha")
+- Evaluate 0 elements: (const string a[], 0, "xiao")
+- Evaluate negative elements: (const string a[], -4, "xiao")
+	(Function should return -1)
+
+bool findRun(const string a[], int n, string target, int& begin, int& end)
+- One consecutive string: (const string a[], 10, "yunjin")
+- Multiple consecutive strings: (const string a[], 10, "yae miko")
+- Multiple consecutive target strings occur multiple times: ({"ayato", "ayato", "yunjin", "ayato", "ayato", "ayato", "yae miko", "yae miko", "zhongli", "yae miko"}, 10, "ayato")
+- Target string doesn't exist: (const string a[], 10, "kazuha")
+	(Function should not change begin and end)
+- Function evaluates until the middle of a consecutive string sequence: ({"ayato", "ayato", "yunjin", "ayato", "ayato", "ayato", "yae miko", "yae miko", "zhongli", "yae miko"}, 5, "ayato")
+- Evaluate 0 elements: (const string a[], 0, "yunjin")
+- Evaluate negative elements: (const string a[], -10, "yunjin")
+
+int findMin(const string a[], int n)
+- Evaluate whole array: (const string a[], 10)
+- Evaluate part of array: (const string a[], 7)
+- Evaluate 0 elements: (const string a[], 0, "chongyun")
+- Evaluate negative elements: (const string a[], -10, "chongyun")
+
+int moveToEnd(string a[], int n, int pos) AND
+int moveToBeginning(string a[], int n, int pos)
+- pos is 0: (const string a[], 10, 0)
+- pos is last position: (const string a[], 10, 9)
+- pos is between 0 and last position: (const string a[], 10, 4)
+- Evaluate partial array: (const string a[], 8, 4)
+- Evaluate 0 elements: (const string a[], 0, 5)
+- Evaluate negative elements: (const string a[], -10, 5)
+
+int findDifference(const string a1[], int n1, const string a2[], int n2)
+- Arrays are identical: (const string a[], 10, const string a[], 10)
+- Arrays have none of the same values: (const string a[], 10, {"hello", "future", "spy", "family"}, 4)
+- Arrays are identical until the end of one array: (const string a[], 5, const string a[], 10)
+- Arrays are the same up to a point: (const string a[], 10, {"ayato", "xiao", "yunjin", "xingqiu", "tomo"}, 5)
+- Evaluate 0 elements: (const string a[], 0, const string a[], 10)
+- Evaluate negative elements: (const string a[], -4, const string a[], 10)
+
+int removeDups(string a[], int n)
+- Evaluate whole array: (string a[], 10)
+- Multiple sequences of consecutive identical items: ({"ayato", "ayato", "yunjin", "ayato", "ayato", "ayato", "yae miko", "yae miko", "zhongli", "yae miko"}, 10)
+- Evaluate partial array: ({"ayato", "ayato", "yunjin", "ayato", "ayato", "ayato", "yae miko", "yae miko", "zhongli", "yae miko"}, 5)
+- Evaluate 0 elements: (const string a[], 0)
+- Evaluate negative elements: (const string a[], -10)
+
+bool subsequence(const string a1[], int n1, const string a2[], int n2)
+- Second array appears in order in the first: (const string a[], 10, {"ayato", "raiden", "zhongli"}, 3)
+- Second array doesn't appear in order in the first: (const string a[], 10, {"ayato", "raiden", "yunjin"}, 3)
+- Second array has 0 elements: (const string a[], 10, {"ayato", "raiden", "zhongli"}, 0)
+- Evaluate negative elements: (const string a[], 10, {"ayato", "raiden", "zhongli"}, -3)
+
+int makeMerger(const string a1[], int n1, const string a2[], int n2, string result[], int max)
+- Both arrays are nondecreasing: ({"ayato", "barbara", "chongyun"}, 3, {"ayaka", "bennett", "shenhe", "zhongli"}, 4, string result[], 7)
+- One or both arrays aren't nondecreasing: (const string a[], 10, const string a[], 4, string result[], 30)
+- Total array size is over max: ({"ayato", "barbara", "chongyun"}, 3, {"ayaka", "bennett", "shenhe", "zhongli"}, 4, string result[], 3)
+- Evaluate 0 elements: (const string a[], 0, const string a[], 4, string result[], 30)
+- Evaluate negative elements: (const string a[], -3, const string a[], 4, string result[], 30)
+
+int divide(string a[], int n, string divider)
+- No elements are < divider: (string a[], 10, "ayato")
+- No elements are > divider: (string a[], 10, "zhongli")
+- No elements are == divider: (string a[], 10, "kazuha")
+- Evaluate 0 elements: (string a[], 0, "ayato")
+- Evaluate negative elements: (string a[], -10, "ayato")

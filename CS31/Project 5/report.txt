@@ -1,0 +1,47 @@
+a. A brief description of notable obstacles you overcame.
+- The first draft of the second function that I wrote failed most (if not all) test cases. Trying to tackle the skipping of punctuation marks while also dealing with space characters caused more errors than I realized — I copied the original jeet, modified the copy to make all letters lowercase, and removed all punctuation.
+- Accessing out-of-bounds array positions caused multiple bugs in my program. I had to be mindful of placing upper bounds on the number of characters present in a jeet.
+
+b. A description of the design of your program.
+
+Function 1:
+for each w1
+	compare each char to each first char of every other string other than itself
+	if first char matches, evaluate other chars
+		if all other chars w1 match, compare w2 of first string to w2 of the string currently being evaluated
+			if w2s are equal, delete string with smaller distance
+	go back to line 2
+		if no other w1s match, move on to next string to analyze
+
+Function 2:
+Make a copy of the original jeet, then remove all non-alphabetic/non-space characters from the jeet.
+
+Loop through each match standard separately.
+  Find a match to the first char of w1.
+  Find the first alpha in jeetCopy, then iterate through the characters in jeetCopy.
+    Check the subsequent letters for a w1 match.
+    Check if w2 matches if w1 matches. If w1 doesn't match, move to the next word in jeetCopy.
+      Check the rest of the letters for a w2 match.
+        Check if w2 matches. If w2 doesn't match, move to the next word in jeetCopy.
+          If w2 matches, count the number of words between w1 and w2; compare this to the corresponding value in distance[]. Increment the number of matches found if the current distance between w1 and w2 is smaller than the value in distance[].
+Return the match level of the jeet.
+
+
+c. Test data and reason for each test. You must note which test cases your program does not handle correctly.
+
+Data for both functions are listed together in this format: (int distance[], char word1[][MAX_WORD_LENGTH+1], char word2[][MAX_WORD_LENGTH+1], int nStandards, const char jeet[]). The jeet text is not used in the first function.
+
+int distance[] and char word1[][] and char word2[][]
+- {2, 6, 7, 7, 9, -4, 1, 10}
+and
+  {"alpha", "bRaVo", "bRaVo", "bravo", "CHARLIE", "ddelta", "echoo", "echoo"} and
+  {"foxtrot", '\0', "foxtrot", "foxtrot", "Golf", "@$%(*", "hOtel", "hOtel"}
+- 2-alpha-foxtrot (the first standard) is valid. Standard 2 contains a null character and is invalid. Standards 3 and 4 check that the function treats upper and lower cases identically and removes one of the duplicate standards. Standard 5 is valid. Standard 6 has a negative number and will return 0. Standard 7 and 8 are identical other than their distances, meaning the one with the lower distance of 1 will be erased from the array.
+
+int nStandards
+- 0 or negative: returns 0
+- 5: positive value as expected by the function
+
+jeet text
+- "hello aLpha 01483foxtrot hOt999el    2alpha BRAVO!!!bravo CHARLIE ddelta Golf echoo hOteL hOtel hOtel"
+- This text checks that upper and lower case are treated identically, punctuation marks are ignored and not treated as word separators, multiple spaces in a row count as one word separator, w2 coming before w1 does not count as a match, and each match standard can only count for one match towards the number of standards the jeet matches in total.

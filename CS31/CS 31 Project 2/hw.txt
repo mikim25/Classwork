@@ -1,0 +1,46 @@
+1. The program segment's output appears as follows.
+	endlendl
+	grendel
+
+2. When the user inputs an integer n into the program, the program outputs n lines (each with one # character); the first line contains n-1 spaces before the #, the second line contains one less space, and so on until the final line is just #.
+
+3. #include <iostream>
+    using namespace std;
+
+    	int main()
+    	{
+        		int len;
+
+        		cout << "Enter a number: ";
+        		cin >> len;
+		
+		for (int i = 0; i < len; i++)
+	    	{
+            		int j = i + 1;
+            		while (j < len)
+            		{
+                			cout << " ";
+                			j++;
+            		}
+        		cout << "#" << endl;
+        		}
+    	}
+4. switch (month)
+	{
+	case 6:
+	cout << "summer solstice";
+
+	case 12:
+	cout << "winter solstice";
+
+	case 3:
+	cout << "equinox";
+
+	case 9:
+	cout << "equinox";
+
+	break;
+	default:
+	cout << "nothing special";
+	
+	}

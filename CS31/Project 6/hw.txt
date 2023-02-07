@@ -1,0 +1,95 @@
+Problem 1 --------------------------------------------
+a.
+int main() // Expected output: " 30 20 10"
+    {
+        int arr[3] = { 5, 10, 15 };
+        int* ptr = arr;
+
+        *ptr = 10;          // set arr[0] to 10
+        *(ptr + 1) = 20;      // set arr[1] to 20
+        ptr += 2;
+        ptr[0] = 30;        // set arr[2] to 30
+
+        while (ptr >= arr)
+        {
+            cout << ' ' << *ptr;    // print values
+            ptr--;
+        }
+    cout << endl;
+    }
+b. This function does not work as intended because p is set to nullptr as the last step regardless of what happens in the preceding for loop. The statement p = nullptr; should be moved before the for loop such that if no item in the array is less than the element preceding it, p remains a null pointer; otherwise, it is set to the expected location.
+
+void findDisorder(int arr[], int n, int* p)
+    {
+	p = nullptr;
+        for (int k = 1; k < n; k++)
+        {
+            if (arr[k] < arr[k-1])
+            {
+                 p = arr + k;
+                 return;
+            }
+        }
+    }       
+        
+    int main()
+    {
+        int nums[6] = { 10, 20, 20, 40, 30, 50 };
+        int* ptr = &nums[0];
+
+        findDisorder(nums, 6, ptr);
+	if (ptr == nullptr)
+	    cout << "The array is ordered" << endl;
+	else
+	{
+            cout << "The disorder is at address " << ptr << endl;
+            cout << "It's at position " << ptr - nums << endl;
+            cout << "The item's value is " << *ptr << endl;
+	}
+    }
+
+c. The main function may not work because when double* p is initialized as a pointer, it does not point to any memory address. This can be fixed by making p point to a new double variable when it is initialized.
+
+#include <iostream>
+    #include <cmath>
+    using namespace std;
+
+    void hypotenuse(double leg1, double leg2, double* resultPtr)
+    {
+        *resultPtr = sqrt(leg1*leg1 + leg2*leg2);
+    }
+
+    int main()
+    {
+        double a;
+        double* p = &a;
+        hypotenuse(1.5, 2.0, p);
+        cout << "The hypotenuse is " << *p << endl;
+    }
+
+d.
+
+e.
+
+Problem 2 --------------------------------------------
+a. string* fp;
+b. string fish[5];
+c. fp = fish + 4;
+d. *fp = "yellowtail";
+e. *(fish + 3) = "salmon";
+f. fp =- 3;
+g. fp[1] = "carp";
+h. fp[0] = "smelt";
+i. bool d = (fp == fish);
+j. bool b = (*fp == *(fp + 1));
+
+Problem 3 --------------------------------------------
+a.
+
+b.
+
+c.
+
+Problem 4 --------------------------------------------
+
+Problem 5 --------------------------------------------

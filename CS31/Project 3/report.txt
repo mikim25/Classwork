@@ -1,0 +1,81 @@
+a. A brief description of notable obstacles.
+- After completing the first draft of my program, my main function failed to return any value for convertTune() when the initial tune included a '/'. The code segment for converting the tune and subsequently returning 0 failed to analyze all indexes of the tune and was instead stuck in an infinite loop on the index of the '/' character.
+- In some loops, such as in line 263, I needed the substring indicating the sustain length (starting at an index related to current index p) to remain constant. However, by increasing the value of p during the loop, an error occurred. This was fixed my incrementing p outside the loop.
+- When determining if a tune ended prematurely or not, I failed to notice that the beat number did not increase to include the total number of beats.
+- Some tunes (such as r//Y/g3o/) returned true at times and false at times for hasProperSyntax. Correcting the above mistakes resolved this issue in all cases.
+
+b. A description of your program's design. Use pseudocode in this description where it clarifies the presentation.
+
+The main function sets a string and integer (corresponding to string&instructions and int&badBeat) to arbitrary values to check if they have been altered after running convertTune(). It also checks if the tune has proper syntax, the output of convertTune(), the value of badBeat, and the value of instructions.
+
+(Going forward, 'a#/' means an alpha, then a digit, then a slash.)
+
+check if tune has proper syntax
+  if the tune isn't an empty string
+    for each character in tune, check that each character is a color, digit, or slash
+      if tune contains an invalid character, tune doesn't have proper syntax
+    check that first char isn't a digit
+    check that each alpha char is followed by /, #/, or ##/
+  if no errors are caught in the above steps, the tune has valid syntax
+
+return a digit indicating 0 if tune is convertible, pos. integer if not
+  if the tune is an empty string, it is convertible
+  check each index of the tune
+    if tune has bad syntax, return 1
+    increment current beat number if valid beat is found
+      (a/, a#/, a##/, / that follows a /, or if the first character is /)
+    check if any beat specifies a sustain of 0 or 1
+      consider a 1-digit sustain and 2-digit sustain separately
+    check if while a sustain is in effect, a non-slash character is present
+      consider a 1-digit sustain; check that the number of / equals the digit value
+        if there is a non-/ character where / is expected, there is a bad beat
+        if there is nothing where a / is expected, the tune ends prematurely
+      consider a 2-digit sustain; check that the number of / equals the digit value
+        (separate cases in which the first digit is 0 and in which it is not)
+        if there is a non-/ character where / is expected, there is a bad beat
+        if there is nothing where a / is expected, the tune ends prematurely
+  if no errors are caught, the tune is convertible
+    if the tune is an empty string, the instructions are also an empty string
+    else
+      check one full beat at a time
+        if beat is a/, append the lowercase color char to instructions
+          increase the index to be analyzed to the start of the next beat
+        else if beat is a#/, append # amount of uppercase color chars to instructions
+          increase the index to be analyzed to the start of the next beat
+        else if beat is a##/
+          if the digits start with 0,
+            append # (the second one) amount of uppercase color chars to instructions
+            increase the index to be analyzed to the start of the next beat
+          if the digits don't start with 0,
+            append ## amount of uppercase color chars to instructions
+            increase the index to be analyzed to the start of the next beat
+        else (the character analyzed must be /)
+          append an x to instructions
+          increase the index to be analyzed to the start of the next beat
+    return 0 for all cases
+
+c. A list of data used to thoroughly test your program and the reason for each test. Note which test cases your program does not handle correctly.
+
+Only input tunes are listed. As described in (b), a string and integer corresponding to instructions and badBeat respectively are set to arbitrary values ("ayato" and 999 as seen in my main function) to see if they will change when convertTune() is run.
+
+Syntactically incorrect:
+(convertTune() returns 1, instructions unchanged, badBeat unchanged)
+  r//y/A3///o/: Includes non-color letter
+  r//y/3g///o/: Not comprised of valid beats (/, a/, a#/, or a##/)
+  r//y/g3///o: Last character is not part of a beat
+  rr//y/g3///o/: First character is not part of a beat
+
+Syntactically correct but not convertible:
+(convertTune() returns 2, 3, 4, instructions unchanged)
+  r//y/g3/b/o/: Sustain in effect, non-slash character appears (badBeat changed, return 2)
+  r//y/g1/o/: Sustain length is 0 or 1 (badBeat changed, return 3)
+  r//y/g3//: Tune string ends prematurely (badBeat = 1 + total beats, return 4)
+  r//y1/g3/b/o/: Multiple errors, only report earliest error
+
+Syntactically correct and convertible:
+(convertTune() returns 0, instructions changed, badBeat unchanged)
+  r//y/g3///o/: Control test (no sustain: / -> x, g/ -> g, g2// -> GG)
+  R//Y/G3///O/: Letter case in tune string is irrelevant
+  r//y/g03///o/: 03 length sustain is treated the same as 3 length sustain
+  : Empty string (zero or more beats)
+  ////: Only empty beats

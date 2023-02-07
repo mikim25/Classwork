@@ -1,0 +1,21 @@
+a. Brief description of notable obstacles I overcame.
+- Upon first writing the program, my code output multiple error messages when multiple input errors were detected. I fixed this by placing if/else statements inside if statements to ensure subsequent errors would only be detected if there were no errors caught before it.
+- Having written some portion of this program before watching all of the lectures, I did not define variables for low and high water pricing rates or use else if statements.
+
+b. A list of the test data that could be used to thoroughly test your program, along with the reason for each test.
+
+Formatted as "Reason (Initial meter reading, Final meter reading, Customer name, Month number)".
+
+High season, 23 HCF or less used (600, 610, Alice, 5)
+High season, more than 23 HCF used (600, 1000, Alice, 5)
+Low season, 15 HCF or less used (600, 610, Alice, 2)
+Low season, more than 15 HCF used (600, 1000, Alice, 2)
+Error: Negative initial reading (-600, 1000, Alice, 2)
+Error: Final reading is smaller than initial reading (1000, 600, Alice, 2)
+Final reading is equal to initial reading (600, 600, Alice, 2)
+Error: Customer name is an empty string (600, 1000, , 2)
+Customer name contains only spaces (600, 1000,       ,2)
+Error: Non-integer month (600, 1000, Alice, 2.5)
+	My program does not handle this test case in the way the spec requires. The output states a bill total of $3072.60 instead of "The month number must be in the range 1 through 12.", which I should've gotten because 2.5 is not an integer. My program did not find an integer in the input where an integer was expected, which I do not know how to solve yet.
+Error: Month is less than 1 or above 12 (600, 1000, Alice, 0)
+Only first error detected is reported: (-600, -1000, , 0) OR (600, 300, , 0) OR (600, 1000, , 0)
